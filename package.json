@@ -1,0 +1,24 @@
+{
+  "name": "appoint",
+  "version": "1.0.0",
+  "description": "Promise",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -R nyan ./test/cover.js",
+    "dev": "cross-env NODE_ENV=development webpack --progress --colors --watch --config webpack.config.js",
+    "build": "cross-env NODE_ENV=production webpack --progress --colors --config webpack.config.js"
+  },
+  "author": "zeromake <a390720046@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^8.0.5",
+    "cross-env": "^5.0.1",
+    "mocha": "^3.4.2",
+    "mocha-phantomjs": "^4.1.0",
+    "promises-aplus-tests": "calvinmetcalf/promises-tests#phantom",
+    "ts-loader": "^2.2.1",
+    "typescript": "^2.3.4",
+    "webpack": "^3.0.0"
+  },
+  "dependencies": {}
+}
