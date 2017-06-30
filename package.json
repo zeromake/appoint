@@ -1,22 +1,25 @@
 {
   "name": "appoint",
   "version": "1.0.0",
-  "description": "Promise",
-  "main": "index.js",
+  "description": "a Promise ",
+  "main": "dist/appoint.js",
   "scripts": {
-    "test": "mocha -R nyan ./test/cover.js",
+    "test": "npm run tslint && mocha -R nyan ./test/cover.js",
+    "cover": "istanbul cover _mocha ./test/cover.js -- -R spec && istanbul check-coverage --lines 100 --function 100 --statements 100 --branches 100",
+    "tslint": "tslint src/**/*.ts",
     "dev": "cross-env NODE_ENV=development webpack --progress --colors --watch --config webpack.config.js",
     "build": "cross-env NODE_ENV=production webpack --progress --colors --config webpack.config.js"
   },
   "author": "zeromake <a390720046@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^8.0.5",
     "cross-env": "^5.0.1",
+    "istanbul": "^0.4.5",
     "mocha": "^3.4.2",
-    "mocha-phantomjs": "^4.1.0",
     "promises-aplus-tests": "calvinmetcalf/promises-tests#phantom",
     "ts-loader": "^2.2.1",
+    "tslint": "^5.4.3",
+    "tslint-loader": "^3.5.3",
     "typescript": "^2.3.4",
     "webpack": "^3.0.0"
   },

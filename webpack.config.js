@@ -24,6 +24,12 @@ const config = {
     plugins: [],
     module: {
         rules: [
+             {
+                test: /\.ts$/,
+                use: 'tslint-loader',
+                enforce: 'pre',
+                exclude: /node_modules/
+            },
             {
                 test: /\.ts$/,
                 exclude: /node_modules/,
