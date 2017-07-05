@@ -7,8 +7,8 @@
     "test": "npm run tslint && mocha -R nyan ./test/cover.js",
     "cover": "istanbul cover _mocha ./test/cover.js -- -R spec && istanbul check-coverage --lines 100 --function 100 --statements 100 --branches 100",
     "tslint": "tslint src/**/*.ts",
-    "dev": "cross-env NODE_ENV=development webpack --progress --colors --watch --config webpack.config.js",
-    "build": "cross-env NODE_ENV=production webpack --progress --colors --config webpack.config.js"
+    "dev": "cross-env NODE_ENV=development rollup -c -w",
+    "build": "cross-env NODE_ENV=production rollup -c"
   },
   "author": "zeromake <a390720046@gmail.com>",
   "license": "MIT",
@@ -17,11 +17,12 @@
     "istanbul": "^0.4.5",
     "mocha": "^3.4.2",
     "promises-aplus-tests": "calvinmetcalf/promises-tests#phantom",
-    "ts-loader": "^2.2.1",
+    "rollup": "^0.43.0",
+    "rollup-plugin-typescript": "^0.8.1",
+    "rollup-plugin-uglify": "^2.0.1",
     "tslint": "^5.4.3",
-    "tslint-loader": "^3.5.3",
     "typescript": "^2.3.4",
-    "webpack": "^3.0.0"
+    "uglify-es": "^3.0.23"
   },
   "dependencies": {}
 }

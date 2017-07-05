@@ -339,7 +339,7 @@ describe('Lie', function () {
       )
     })
   })
-  /* if (!process.browser) {
+  if (!process.browser) {
     it('should emit events for unhandled errors', function (done) {
       var called = 0
       var err1 = new Error('should be caught')
@@ -363,7 +363,7 @@ describe('Lie', function () {
       }
       process.on('unhandledRejection', onEvent)
     })
-  } */
+  }
   describe('Promises/A+ Tests', function () {
     aplus.mocha(adapter)
   })

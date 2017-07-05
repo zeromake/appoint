@@ -1,13 +1,13 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
+        "module": "es6",
         "outDir": "dist",
         "sourceMap": true,
-        "target": "es5",
+        "target": "es3",
         "experimentalDecorators":true
     },
-    "include": [
-        "src/**/*.ts"
+    "files": [
+        "src/appoint.ts"
     ],
     "exclude": [
         "node_modeles"

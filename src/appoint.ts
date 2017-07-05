@@ -2,7 +2,6 @@ import {
     doReject,
     doResolve,
     getThen,
-    immediate,
     INTERNAL,
     isArray,
     isFunction,
@@ -11,8 +10,12 @@ import {
     unwrap,
 } from "./utils";
 
+import schedule from "./schedule";
+
 import { QueueItem } from "./queue";
 import { AppointState } from "./type";
+
+declare const global: any;
 
 /**
  * @constructor
@@ -93,6 +96,13 @@ export default class Appoint {
                 }
             });
         }
+    }
+    public static polyfill(): void {
+        (function _(glo) {
+            if (typeof glo.Promise !== "function") {
+                glo.Promise = Appoint;
+            }
+        })(typeof global === "undefined" ? window : global);
     }
     public handled: boolean;
     public value: any;

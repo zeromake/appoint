@@ -1,15 +1,10 @@
 import Appoint from "./appoint";
 import { AppointState } from "./type";
 
-export function immediate(func: (arg: any) => any) {
-    if (!isFunction(func)) {
-        return setTimeout(() => void 0, 0);
-    }
-    const args: any[] = Array.prototype.slice.call(arguments, 1);
-    return setTimeout(() => {
-        func.apply(void 0, args);
-    }, 0);
-}
+import schedule from "./schedule";
+
+declare const process: any;
+
 export function INTERNAL(): void { return void 0; }
 export function isFunction(func: any): boolean {
     return typeof func === "function";
@@ -34,7 +29,7 @@ export function getThen(obj: any): (args: any) => any {
 }
 
 export function unwrap(promise: Appoint, func: (...args) => void, value: any): void {
-    immediate(() => {
+    schedule(() => {
         let returnValue;
         try {
             returnValue = func(value);
@@ -94,9 +89,13 @@ export function doReject(self: Appoint, error: Error) {
     self.setState(AppointState.REJECTED);
     self.value = error;
     if (self.handled) {
-        immediate(() => {
+        schedule(() => {
             if (self.handled) {
-                console.error(error);
+                if (typeof process !== "undefined") {
+                    process.emit("unhandledRejection", error, self);
+                } else {
+                    console.error(error);
+                }
             }
         });
     }
