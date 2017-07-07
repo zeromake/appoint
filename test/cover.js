@@ -367,4 +367,18 @@ describe('Lie', function () {
   describe('Promises/A+ Tests', function () {
     aplus.mocha(adapter)
   })
+  describe('co Tests', function() {
+    it('co promise', function(done) {
+      Promise.co(function *() {
+        const text = yield new Promise(function(resolve) {
+          resolve('777777777')
+        })
+        assert.equal(text, '777777777')
+        return 'test'
+      }).then(res => {
+        assert.equal(res, 'test')
+        done()
+      })
+    })
+  })
 })

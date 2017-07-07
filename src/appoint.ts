@@ -15,12 +15,15 @@ import schedule from "./schedule";
 import { QueueItem } from "./queue";
 import { AppointState } from "./type";
 
+import makeCo from "./co";
+
 declare const global: any;
 
 /**
  * @constructor
  */
 export default class Appoint {
+    public static co = makeCo(Appoint);
     public static resolve(value) {
         if (value instanceof Appoint) {
             return value;
