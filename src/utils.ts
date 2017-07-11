@@ -1,7 +1,7 @@
 import Appoint from "./appoint";
 import { AppointState } from "./type";
 
-import schedule from "./schedule";
+import { asap } from "./asap";
 
 declare const process: any;
 
@@ -28,8 +28,14 @@ export function getThen(obj: any): (args: any) => any {
     return void 0;
 }
 
+function schedule(callback) {
+    process.nextTick(() => {
+        callback();
+    });
+}
+
 export function unwrap(promise: Appoint, func: (...args) => void, value: any): void {
-    schedule(() => {
+    asap(() => {
         let returnValue;
         try {
             returnValue = func(value);
@@ -63,13 +69,13 @@ export function doResolve(self: Appoint, value: any) {
 export function safelyResolveThen(self: Appoint, then: (...args) => void) {
     let called: boolean = false;
     try {
-        then((value: any) => {
+        then(function resolvePromise(value: any) {
             if (called) {
                 return;
             }
             called = true;
             doResolve(self, value);
-        }, (error: Error) => {
+        }, function rejectPromise(error: Error) {
             if (called) {
                 return;
             }
@@ -89,7 +95,7 @@ export function doReject(self: Appoint, error: Error) {
     self.setState(AppointState.REJECTED);
     self.value = error;
     if (self.handled) {
-        schedule(() => {
+        asap(() => {
             if (self.handled) {
                 if (typeof process !== "undefined") {
                     process.emit("unhandledRejection", error, self);

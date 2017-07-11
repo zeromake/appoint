@@ -24,6 +24,5 @@
     "tslint": "^5.4.3",
     "typescript": "^2.3.4",
     "uglify-es": "^3.0.23"
-  },
-  "dependencies": {}
+  }
 }

@@ -10,8 +10,6 @@ import {
     unwrap,
 } from "./utils";
 
-import schedule from "./schedule";
-
 import { QueueItem } from "./queue";
 import { AppointState } from "./type";
 
@@ -123,7 +121,10 @@ export default class Appoint {
             safelyResolveThen(this, resolver);
         }
     }
-    public then(onFulfilled?: (...args: any[]) => void, onRejected?: (...args: any[]) => void) {
+    public then<U>(
+        onFulfilled?: ((value: any) => U),
+        onRejected?: ((error: any) => U),
+    ): Appoint {
         if (!isFunction(onFulfilled) && this.state === AppointState.FULFILLED ||
          !isFunction(onRejected) && this.state === AppointState.REJECTED) {
              return this;
@@ -140,7 +141,7 @@ export default class Appoint {
         }
         return promise;
     }
-    public catch(onRejected: (...args: any[]) => void) {
+    public catch<U>(onRejected: (error: any) => U) {
         return this.then(null, onRejected);
     }
     public setState(state: AppointState) {

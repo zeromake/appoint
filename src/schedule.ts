@@ -1,8 +1,8 @@
-
 declare const process: any;
 declare const global: any;
 declare const Promise: any;
 declare const window: any;
+
 // copy to https://github.com/petkaantonov/bluebird/blob/master/src/schedule.js
 let schedule;
 const noAsyncScheduler = function noAsyncScheduler() {

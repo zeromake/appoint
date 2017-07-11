@@ -1,7 +1,8 @@
+
 function makeCo(pro) {
     return ((Promise) => {
         const slice = Array.prototype.slice;
-        function co(gen) {
+        const co: any = function co(gen) {
             const ctx = this;
             const args = slice.call(arguments, 1);
             return new Promise(function _(resolve, reject) {
@@ -64,7 +65,14 @@ function makeCo(pro) {
                         + 'but the following object was passed: "' + String(ret.value) + '"'));
                 }
             });
-        }
+        };
+        co.wrap = function _(fn) {
+            const createPromise: any = function createPromise() {
+                return co.call(this, fn.apply(this, arguments));
+            };
+            createPromise.__generatorFunction__ = fn;
+            return createPromise;
+        };
         /**
          * any to Promise
          * @param ctx
