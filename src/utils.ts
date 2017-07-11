@@ -94,10 +94,8 @@ export function safelyResolveThen(self: Appoint, then: (...args) => void) {
 export function doReject(self: Appoint, error: Error) {
     self.setState(AppointState.REJECTED);
     self.value = error;
-    console.log("no async", self.handled);
     if (self.handled) {
         asap(() => {
-            console.log("async", self.handled);
             if (self.handled) {
                 if (typeof process !== "undefined") {
                     process.emit("unhandledRejection", error, self);
