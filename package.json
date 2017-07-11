@@ -17,7 +17,7 @@
     "istanbul": "^0.4.5",
     "mocha": "^3.4.2",
     "promises-aplus-tests": "calvinmetcalf/promises-tests#phantom",
-    "rollup": "^0.43.0",
+    "rollup": "^0.43.1",
     "rollup-plugin-typescript": "^0.8.1",
     "rollup-plugin-uglify": "^2.0.1",
     "rollup-watch": "^4.0.0",

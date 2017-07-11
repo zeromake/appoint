@@ -2,7 +2,7 @@
 function makeCo(pro) {
     return ((Promise) => {
         const slice = Array.prototype.slice;
-        const co: any = function co(gen) {
+        const co: any = function co_(gen) {
             const ctx = this;
             const args = slice.call(arguments, 1);
             return new Promise(function _(resolve, reject) {
@@ -67,7 +67,7 @@ function makeCo(pro) {
             });
         };
         co.wrap = function _(fn) {
-            const createPromise: any = function createPromise() {
+            const createPromise: any = function createPromise_() {
                 return co.call(this, fn.apply(this, arguments));
             };
             createPromise.__generatorFunction__ = fn;

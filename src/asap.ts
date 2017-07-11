@@ -5,7 +5,7 @@ let customSchedulerFn;
 declare const process: any;
 declare const require: any;
 
-export let asap = function asap(callback, arg?) {
+export let asap = function asap_(callback, arg?) {
   queue[len] = callback;
   queue[len + 1] = arg;
   len += 2;

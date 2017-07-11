@@ -22,19 +22,31 @@ declare const global: any;
  */
 export default class Appoint {
     public static co = makeCo(Appoint);
-    public static resolve(value) {
+    /**
+     * @param  {any} value
+     * @returns Appoint
+     */
+    public static resolve(value: any): Appoint {
         if (value instanceof Appoint) {
             return value;
         }
         return doResolve(new Appoint(INTERNAL), value);
     }
-    public static reject(error) {
+    /**
+     * @param  {any} error
+     * @returns Appoint
+     */
+    public static reject(error: any): Appoint {
         if (error instanceof Appoint) {
             return error;
         }
         return doReject(new Appoint(INTERNAL), error);
     }
-    public static all(iterable: Appoint[]) {
+    /**
+     * @param  {Appoint[]} iterable
+     * @returns Appoint
+     */
+    public static all(iterable: Appoint[]): Appoint {
         const self = this;
         if (!isArray(iterable)) {
             return this.reject(new TypeError("must be an array"));
@@ -67,7 +79,11 @@ export default class Appoint {
             }
         }
     }
-    public static race(iterable) {
+    /**
+     * @param  {Appoint[]} iterable
+     * @returns Appoint
+     */
+    public static race(iterable: Appoint[]): Appoint {
         const self = this;
         if (!isArray(iterable)) {
             return this.reject(new TypeError("must be an array"));
@@ -98,6 +114,9 @@ export default class Appoint {
             });
         }
     }
+    /**
+     * @returns void
+     */
     public static polyfill(): void {
         (function _(glo) {
             if (typeof glo.Promise !== "function") {
@@ -109,7 +128,13 @@ export default class Appoint {
     public value: any;
     public queue: QueueItem[];
     private state: AppointState;
-    constructor(resolver: () => any) {
+    /**
+     * @param  {(onFulfilled?:(value?:any)=>any,onRejected?:(error?:any)=>any)=>any} resolver
+     */
+    public constructor(resolver: (
+        onFulfilled?: (value?: any) => any,
+        onRejected?: (error?: any) => any,
+    ) => any) {
         if (!isFunction(resolver)) {
             throw new TypeError("resolver must be a function");
         }
@@ -121,9 +146,14 @@ export default class Appoint {
             safelyResolveThen(this, resolver);
         }
     }
+    /**
+     * @param  {(value?:any)=>U} onFulfilled?
+     * @param  {(error?:any)=>U} onRejected?
+     * @returns Appoint
+     */
     public then<U>(
-        onFulfilled?: ((value: any) => U),
-        onRejected?: ((error: any) => U),
+        onFulfilled?: (value?: any) => U,
+        onRejected?: (error?: any) => U,
     ): Appoint {
         if (!isFunction(onFulfilled) && this.state === AppointState.FULFILLED ||
          !isFunction(onRejected) && this.state === AppointState.REJECTED) {
@@ -131,7 +161,7 @@ export default class Appoint {
         }
         const promise = new Appoint(INTERNAL);
         if (this.handled) {
-            this.handled = null;
+            this.handled = false;
         }
         if (this.getState() !== AppointState.PENDING) {
             const resolver = this.getState() === AppointState.FULFILLED ? onFulfilled : onRejected;
@@ -141,7 +171,11 @@ export default class Appoint {
         }
         return promise;
     }
-    public catch<U>(onRejected: (error: any) => U) {
+    /**
+     * @param  {(error?:any)=>U} onRejected
+     * @returns Appoint
+     */
+    public catch<U>(onRejected: (error?: any) => U): Appoint {
         return this.then(null, onRejected);
     }
     public setState(state: AppointState) {

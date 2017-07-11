@@ -5,7 +5,7 @@ declare const window: any;
 
 // copy to https://github.com/petkaantonov/bluebird/blob/master/src/schedule.js
 let schedule;
-const noAsyncScheduler = function noAsyncScheduler() {
+const noAsyncScheduler = function noAsyncScheduler_() {
     throw new Error("NO_ASYNC_SCHEDULER");
 };
 const isNode = typeof process !== "undefined" &&
@@ -64,7 +64,7 @@ if (util.isNode && typeof MutationObserver === "undefined") {
         });
         o2.observe(div2, opts);
 
-        const scheduleToggle = function scheduleToggle() {
+        const scheduleToggle = function scheduleToggle_() {
             if (toggleScheduled) {
                 return;
             }
@@ -72,9 +72,9 @@ if (util.isNode && typeof MutationObserver === "undefined") {
             div2.classList.toggle("foo");
         };
 
-        return function schedule() {
+        return function schedule_() {
             const newFun = makeFunction(this, arguments);
-            const o = new MutationObserver(function _() {
+            const o = new MutationObserver(function __() {
                 o.disconnect();
                 newFun();
             });
@@ -84,12 +84,12 @@ if (util.isNode && typeof MutationObserver === "undefined") {
     })();
 // 浏览器中的setImmediate为备选
 } else if (typeof setImmediate !== "undefined") {
-    schedule = function schedule() {
+    schedule = function schedule_() {
         setImmediate(makeFunction(this, arguments));
     };
 // 最慢的setTimeout
 } else if (typeof setTimeout !== "undefined") {
-    schedule = function schedule() {
+    schedule = function schedule_() {
         setTimeout(makeFunction(this, arguments), 0);
     };
 // 不支持异步
